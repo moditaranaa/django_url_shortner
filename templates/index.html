@@ -90,6 +90,7 @@ section {
 <script type="text/javascript">
   $(document).on('submit','#post-form',function(e){
     e.preventDefault();
+    const baseurl = window.location.origin;
 
     $.ajax({
       type:'POST',
@@ -99,7 +100,7 @@ section {
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },
       success: function(data){
-        $('h2').html("www.surls.ga/"+data)
+        $('h2').html(baseurl+'/'+data)
       }
     });
   });
