@@ -76,9 +76,17 @@ WSGI_APPLICATION = 'urlshortner.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
+
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'mydatabase',
+    }
 }
+# DATABASES = {
+#     'default': dj_database_url.config()
+# }
 
 
 # Password validation

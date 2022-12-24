@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 import uuid
+from django.db import models
 from .models import Url
 from django.http import HttpResponse
 
@@ -9,12 +10,18 @@ def index(request):
 
 def create(request):
     if request.method == 'POST':
-        link = request.POST['link']
-        uid = str(uuid.uuid4())[:5]
-        new_url = Url(link=link,uuid=uid)
-        new_url.save()
+        reqlink = request.POST['link']
+        uid = ''
+        try:
+            url_details = Url.objects.get(link=reqlink)
+            uid = url_details.uuid
+        except Url.DoesNotExist as e:
+            uid = str(uuid.uuid4())[:5]
+            new_url = Url(link=reqlink,uuid=uid)
+            new_url.save()
+        
         return HttpResponse(uid)
 
 def go(request, pk):
     url_details = Url.objects.get(uuid=pk)
-    return redirect('https://'+url_details.link)
+    return redirect(url_details.link)
